@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Economics Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 20px;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .stimulus {
+            background-color: #e8f5e9;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            margin-bottom: 20px;
+        }
+        .answer-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #42a5f5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .answer-button:hover {
+            background-color: #1e88e5;
+        }
+        #explanation {
+            background-color: #fff3cd;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        #submit-btn {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Economics Quiz</h1>
+        <div id="name-section">
+            <label for="name">Enter your name:</label>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <button id="start-btn">Start Quiz</button>
+        </div>
+        <div id="quiz-section" style="display:none;">
+            <div id="stimulus" class="stimulus"></div>
+            <p class="question-number" id="question-number"></p>
+            <p class="question-text" id="question-text"></p>
+            <div id="choices-container"></div>
+            <div id="explanation"></div>
+        </div>
+        <div id="result-section" style="display:none;">
+            <h2>Quiz Completed!</h2>
+            <p id="result-text"></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                stimulus: "Excerpt from Adam Smith's Wealth of Nations (1776): 'It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own interest.'",
+                question: "What economic principle does this statement illustrate?",
+                choices: [
+                    "The role of self-interest in promoting economic activity",
+                    "The need for government regulation",
+                    "The importance of altruism in a free market",
+                    "The benefits of a command economy"
+                ],
+                correctAnswer: 0,
+                explanation: "Adam Smith's statement highlights the principle that self-interest drives economic activity in a free market."
+            },
+            {
+                stimulus: "",
+                question: "What is the law of demand?",
+                choices: [
+                    "As the price of a good increases, the quantity demanded decreases.",
+                    "As the price of a good increases, the quantity demanded increases.",
+                    "The demand curve remains constant regardless of price.",
+                    "Demand is unaffected by income levels."
+                ],
+                correctAnswer: 0,
+                explanation: "The law of demand states that as the price of a good rises, the quantity demanded falls, and vice versa."
+            },{
+        question: "What causes a movement along the demand curve?",
+        choices: [
+            "A change in the price of the good",
+            "A change in consumer income",
+            "A change in the price of a substitute good",
+            "A change in consumer preferences"
+        ],
+        correctAnswer: 0,
+        explanation: "A change in the price of the good itself causes a movement along the demand curve, not a shift."
+    },
+    {
+        question: "What causes the demand curve to shift to the right?",
+        choices: [
+            "An increase in the price of the good",
+            "An increase in consumer income for a normal good",
+            "A decrease in the price of a complementary good",
+            "Both B and C"
+        ],
+        correctAnswer: 3,
+        explanation: "Both an increase in income for a normal good and a decrease in the price of a complementary good can increase demand, shifting the curve right."
+    },
+    {
+        question: "What happens to the supply curve when production costs decrease?",
+        choices: [
+            "The supply curve shifts to the left",
+            "The supply curve shifts to the right",
+            "There is movement along the supply curve",
+            "The supply curve remains unchanged"
+        ],
+        correctAnswer: 1,
+        explanation: "When production costs decrease, suppliers can produce more at the same price, shifting the supply curve to the right."
+    },
+    {
+        question: "Which of the following causes a leftward shift of the demand curve?",
+        choices: [
+            "An increase in consumer income for an inferior good",
+            "A decrease in the price of a substitute good",
+            "A decrease in the price of a complementary good",
+            "An increase in population"
+        ],
+        correctAnswer: 1,
+        explanation: "A decrease in the price of a substitute good reduces demand for the original good, shifting the demand curve left."
+    },
+    {
+        question: "What is the result of a government subsidy to producers?",
+        choices: [
+            "The supply curve shifts to the left",
+            "The supply curve shifts to the right",
+            "The demand curve shifts to the left",
+            "The demand curve shifts to the right"
+        ],
+        correctAnswer: 1,
+        explanation: "A subsidy reduces production costs, allowing producers to supply more at every price, shifting the supply curve to the right."
+    },
+    {
+        question: "If the price of gasoline increases, what happens to the demand for electric cars?",
+        choices: [
+            "It decreases",
+            "It increases",
+            "There is no effect",
+            "The supply curve for electric cars shifts"
+        ],
+        correctAnswer: 1,
+        explanation: "Gasoline and electric cars are substitutes, so an increase in the price of gasoline increases the demand for electric cars."
+    },
+    {
+        question: "What causes a movement along the supply curve?",
+        choices: [
+            "A change in production technology",
+            "A change in the price of the good",
+            "A change in the price of inputs",
+            "A change in government regulations"
+        ],
+        correctAnswer: 1,
+        explanation: "A change in the price of the good causes a movement along the supply curve, not a shift."
+    },
+    {
+        question: "What happens to the demand for normal goods when consumer income decreases?",
+        choices: [
+            "The demand curve shifts to the right",
+            "The demand curve shifts to the left",
+            "There is movement along the demand curve",
+            "Demand becomes perfectly elastic"
+        ],
+        correctAnswer: 1,
+        explanation: "A decrease in consumer income reduces demand for normal goods, shifting the demand curve to the left."
+    },
+    {
+        question: "If a new technology improves production efficiency, what happens to the supply curve?",
+        choices: [
+            "It shifts to the left",
+            "It shifts to the right",
+            "There is movement along the supply curve",
+            "It becomes perfectly elastic"
+        ],
+        correctAnswer: 1,
+        explanation: "Improved technology reduces production costs, allowing suppliers to increase output, shifting the supply curve to the right."
+    },
+    {
+        question: "Which of the following does NOT cause a shift in the supply curve?",
+        choices: [
+            "A change in production technology",
+            "A change in the price of the good",
+            "A change in the cost of inputs",
+            "A government tax on producers"
+        ],
+        correctAnswer: 1,
+        explanation: "A change in the price of the good causes movement along the supply curve, not a shift."
+    },
+    {
+        question: "What causes the demand curve for an inferior good to shift to the left?",
+        choices: [
+            "An increase in consumer income",
+            "A decrease in consumer income",
+            "An increase in the price of a complementary good",
+            "A decrease in the price of a substitute good"
+        ],
+        correctAnswer: 0,
+        explanation: "For inferior goods, an increase in income decreases demand, shifting the demand curve to the left."
+    },
+    {
+        question: "What happens to the supply curve if a natural disaster destroys crops?",
+        choices: [
+            "The supply curve shifts to the left",
+            "The supply curve shifts to the right",
+            "There is movement along the supply curve",
+            "The supply curve remains unchanged"
+        ],
+        correctAnswer: 0,
+        explanation: "A natural disaster reduces the quantity of crops available, shifting the supply curve to the left."
+    },
+    {
+        question: "If the price of a complementary good decreases, what happens to the demand for the original good?",
+        choices: [
+            "It decreases",
+            "It increases",
+            "There is movement along the demand curve",
+            "It remains unchanged"
+        ],
+        correctAnswer: 1,
+        explanation: "Complementary goods are used together, so a decrease in the price of one increases demand for the other."
+    },
+    {
+        question: "What happens to the supply curve when a government imposes a new tax on producers?",
+        choices: [
+            "It shifts to the left",
+            "It shifts to the right",
+            "There is movement along the supply curve",
+            "The supply curve remains unchanged"
+        ],
+        correctAnswer: 0,
+        explanation: "A new tax increases production costs, reducing supply and shifting the supply curve to the left."
+    },
+    {
+        question: "What does a movement along the demand curve indicate?",
+        choices: [
+            "A change in consumer preferences",
+            "A change in income",
+            "A change in the price of the good",
+            "A change in the price of substitutes"
+        ],
+        correctAnswer: 2,
+        explanation: "Movement along the demand curve occurs due to a change in the price of the good itself."
+    },
+    {
+        question: "What happens to the demand for an inferior good when consumer income decreases?",
+        choices: [
+            "The demand curve shifts to the right",
+            "The demand curve shifts to the left",
+            "There is movement along the demand curve",
+            "The demand curve becomes steeper"
+        ],
+        correctAnswer: 0,
+        explanation: "For inferior goods, a decrease in income increases demand, shifting the demand curve to the right."
+    }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userName = "";
+
+        const nameSection = document.getElementById('name-section');
+        const quizSection = document.getElementById('quiz-section');
+        const resultSection = document.getElementById('result-section');
+        const stimulusElement = document.getElementById('stimulus');
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const choicesContainer = document.getElementById('choices-container');
+        const explanationElement = document.getElementById('explanation');
+        const nameInput = document.getElementById('name');
+        const startButton = document.getElementById('start-btn');
+        const resultText = document.getElementById('result-text');
+
+        startButton.addEventListener('click', () => {
+            userName = nameInput.value.trim();
+            if (!userName) {
+                alert("Please enter your name to start the quiz.");
+                return;
+            }
+            nameSection.style.display = 'none';
+            quizSection.style.display = 'block';
+            loadQuestion();
+        });
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionNumberElement.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            stimulusElement.textContent = currentQuestion.stimulus;
+            questionTextElement.textContent = currentQuestion.question;
+            choicesContainer.innerHTML = '';
+            explanationElement.style.display = 'none';
+
+            currentQuestion.choices.forEach((choice, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-button';
+                button.textContent = choice;
+                button.addEventListener('click', () => checkAnswer(index));
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            explanationElement.style.display = 'block';
+
+            if (selectedIndex === currentQuestion.correctAnswer) {
+                explanationElement.textContent = "Correct! " + currentQuestion.explanation;
+                score++;
+            } else {
+                explanationElement.textContent = "Incorrect. " + currentQuestion.explanation;
+            }
+
+            currentQuestionIndex++;
+            setTimeout(() => {
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    endQuiz();
+                }
+            }, 3000); // 3-second delay to allow reading the explanation
+        }
+
+        function endQuiz() {
+            quizSection.style.display = 'none';
+            resultSection.style.display = 'block';
+            resultText.textContent = `${userName}, you scored ${score} out of ${questions.length}!`;
+        }
+    </script>
+</body>
+</html>
